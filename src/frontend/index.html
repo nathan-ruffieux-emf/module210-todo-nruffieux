@@ -3,24 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo App with Backend</title>
+  <title>🌟 Todo App Deluxe</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="app.js" defer></script>
 </head>
 <body>
   <div class="app-container">
-    <h1>Todo App is really cool</h1>
-    <button id="count-countries-btn">
-      🌍 Compter les pays
-    </button>
-    
-    <p id="countries-result"></p>    
+
+    <!-- Header animé -->
+    <div class="app-header">
+      <h1>💎 Todo App Deluxe</h1>
+      <p class="subtitle">Organise tes tâches et explore le monde 🌍</p>
+    </div>
+
+    <!-- Section compteur de pays -->
+    <div class="counter-container">
+      <button id="count-countries-btn">🌍 Compter les pays</button>
+      <p id="countries-result"></p>
+    </div>
+
+    <!-- Formulaire Todo -->
     <form id="todo-form">
-      <input type="text" id="todo-input" placeholder="Add a new task" required>
-      <button type="submit">Add</button>
+      <input type="text" id="todo-input" placeholder="Ajouter une nouvelle tâche..." required>
+      <button type="submit">➕ Add</button>
     </form>
+
+    <!-- Liste des tâches -->
     <ul id="todo-list"></ul>
+
   </div>
 </body>
 </html>

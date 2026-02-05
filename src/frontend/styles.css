@@ -1,113 +1,117 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600;700&display=swap');
 
+/* BODY + BACKGROUND DYNAMIQUE */
 body {
   font-family: 'Poppins', sans-serif;
-  background: #0f0c29;  
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  background-size: 400% 400%;
-  animation: bgAnimation 20s ease infinite;
   margin: 0;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  background: linear-gradient(45deg, #ff0055, #00ffff, #ffdd00, #8a2be2);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
   color: #fff;
 }
 
-@keyframes bgAnimation {
+@keyframes gradientBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
+/* CONTENEUR PRINCIPAL */
 .app-container {
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(15px);
-  padding: 40px 35px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(12px);
   border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  padding: 40px 30px;
   width: 100%;
   max-width: 500px;
-  text-align: center;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.6);
   border: 2px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .app-container:hover {
   transform: translateY(-5px);
-  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.8);
 }
 
-/* TITLE */
-.app-container h1 {
+/* HEADER */
+.app-header h1 {
+  font-family: 'Orbitron', sans-serif;
   font-size: 2.8rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, #ff0099, #493240, #00f0ff);
+  background: linear-gradient(90deg, #ff00ff, #00ffff, #ffdd00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: neonGlow 2.5s ease-in-out infinite alternate;
+  margin: 0;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #ccc;
+  text-align: center;
   margin-bottom: 25px;
-  animation: glowTitle 3s ease-in-out infinite alternate;
+  text-shadow: 0 0 5px rgba(0,0,0,0.4);
 }
 
-@keyframes glowTitle {
+@keyframes neonGlow {
   0% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #00ffff; }
-  100% { text-shadow: 0 0 15px #ff0099, 0 0 25px #00f0ff; }
+  100% { text-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff; }
 }
 
-/* FORM */
+/* FORMULAIRE TODO */
 #todo-form {
   display: flex;
-  gap: 12px;
-  margin-bottom: 25px;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 #todo-input {
   flex: 1;
   padding: 14px;
-  font-size: 16px;
   border-radius: 12px 0 0 12px;
   border: none;
   outline: none;
+  font-size: 16px;
   background: rgba(255,255,255,0.05);
   color: #fff;
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
   transition: all 0.3s ease;
 }
 
-#todo-input::placeholder {
-  color: rgba(255,255,255,0.6);
-}
+#todo-input::placeholder { color: rgba(255,255,255,0.6); }
 
-#todo-input:focus {
-  box-shadow: 0 0 10px #ff00ff, inset 0 2px 6px rgba(0,0,0,0.5);
-}
+#todo-input:focus { box-shadow: 0 0 10px #ff00ff, inset 0 2px 6px rgba(0,0,0,0.5); }
 
-/* BUTTONS */
-button {
+#todo-form button {
   padding: 14px 20px;
   font-weight: 600;
   border-radius: 0 12px 12px 0;
   border: none;
+  background: linear-gradient(135deg, #ff00ff, #00ffff);
+  color: #fff;
   cursor: pointer;
   transition: all 0.3s ease, transform 0.2s ease;
 }
 
-#todo-form button {
-  background: linear-gradient(135deg, #ff0099, #00f0ff);
-  color: #fff;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-}
-
 #todo-form button:hover {
-  transform: translateY(-3px) scale(1.05);
+  transform: scale(1.05) translateY(-2px);
   box-shadow: 0 10px 30px rgba(255,0,255,0.5);
 }
 
-/* TASK LIST */
+/* LISTE DES TÂCHES */
 #todo-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  width: 100%;
 }
 
 #todo-list li {
@@ -134,7 +138,7 @@ button {
   box-shadow: 0 8px 25px rgba(255,0,255,0.3);
 }
 
-/* DELETE */
+/* DELETE BUTTON */
 .delete-btn {
   background: none;
   border: none;
@@ -144,56 +148,48 @@ button {
   transition: all 0.3s ease;
 }
 
-.delete-btn:hover {
-  transform: scale(1.2);
-  color: #ff1a1a;
-}
+.delete-btn:hover { transform: scale(1.2); color: #ff1a1a; }
 
 /* CHECKBOX */
-.task-toggle {
-  margin-right: 14px;
-  transform: scale(1.3);
-  cursor: pointer;
-  accent-color: #00f0ff;
+.task-toggle { margin-right: 14px; transform: scale(1.3); cursor: pointer; accent-color: #00ffff; }
+
+/* COUNTER PAYS */
+.counter-container {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
-/* COUNT COUNTRIES BUTTON */
 #count-countries-btn {
-  padding: 12px 18px;
-  margin-bottom: 15px;
+  padding: 14px 20px;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 14px;
   border: none;
   background: linear-gradient(135deg, #00ff99, #00c0ff);
   color: #fff;
   cursor: pointer;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  text-shadow: 0 0 3px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: pulseBtn 2s infinite alternate;
 }
 
-#count-countries-btn:hover {
-  transform: scale(1.05) translateY(-2px);
-  background: linear-gradient(135deg, #00c070, #0099ff);
-}
+#count-countries-btn:hover { transform: scale(1.05) translateY(-2px); background: linear-gradient(135deg, #00c070, #0099ff); }
 
-@keyframes pulseBtn {
-  0% { box-shadow: 0 0 10px #00c0ff, 0 0 20px rgba(0,200,255,0.5); }
-  100% { box-shadow: 0 0 20px #00c0ff, 0 0 30px rgba(0,200,255,0.8); }
-}
+@keyframes pulseBtn { 0% { box-shadow: 0 0 10px #00c0ff, 0 0 20px rgba(0,200,255,0.5); } 100% { box-shadow: 0 0 20px #00c0ff, 0 0 30px rgba(0,200,255,0.8); } }
 
-/* RESULT */
 #countries-result {
-  margin-top: 10px;
-  font-size: 1.2rem;
+  margin-top: 12px;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #ffeb3b;
   text-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
 /* RESPONSIVE */
-@media (max-width: 500px) {
+@media (max-width: 520px) {
   .app-container { padding: 30px 20px; }
   #todo-form { flex-direction: column; }
   #todo-input, button, #count-countries-btn { width: 100%; border-radius: 12px; }
+  button { margin-top: 10px; }
 }

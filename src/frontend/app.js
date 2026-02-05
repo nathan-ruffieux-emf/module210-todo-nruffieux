@@ -114,16 +114,21 @@ $(document).ready(function () {
 });
 
 
-//bouton pour les pays
+// Bouton pour les pays
+$("#count-countries-btn").on("click", async function () {
+  $("#countries-result").text("⏳ Chargement...");
 
-$("#count-btn").on("click", async function() {
   try {
-    const response = await fetch("https://compteurpays-b7gdb3cafscrf3bw.northeurope-01.azurewebsites.net/api/ComptagePays");
+    const response = await fetch(countCountriesEndpoint);
     const data = await response.json();
-    alert("🌍 Nombre de pays dans le monde : " + data.totalCountries);
+
+    // ✅ Utiliser la bonne propriété renvoyée par la fonction
+    $("#countries-result").text(
+      `🌍 Nombre de pays dans le monde : ${data.totalCountries}`
+    );
   } catch (error) {
-    console.error("Erreur lors du comptage des pays :", error);
-    alert("❌ Erreur lors du comptage des pays");
+    console.error(error);
+    $("#countries-result").text("❌ Erreur lors du comptage des pays");
   }
 });
 

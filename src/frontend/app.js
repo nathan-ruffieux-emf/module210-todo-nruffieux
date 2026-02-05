@@ -1,8 +1,7 @@
 //const apiEndpoint = "https://fa-todo-backend-baqmes.azurewebsites.net/api/tasks";
 //const apiEndpoint = "http://20.234.45.225:8080/api/tasks";
 const apiEndpoint = "https://backend-app.blacksky-de1cc0f5.northeurope.azurecontainerapps.io/api/tasks";
-const countCountriesEndpoint =
-  "https://compteurpays-b7gdb3cafscrf3bw.northeurope-01.azurewebsites.net/api/ComptagePays";
+const countCountriesEndpoint = "https://compteurpays-b7gdb3cafscrf3bw.northeurope-01.azurewebsites.net/api/ComptagePays";
 
 $(document).ready(function () {
   // Charger les tâches au démarrage
@@ -117,18 +116,14 @@ $(document).ready(function () {
 
 //bouton pour les pays
 
-$("#count-countries-btn").on("click", async function () {
-  $("#countries-result").text("⏳ Chargement...");
-
+$("#count-btn").on("click", async function() {
   try {
-    const response = await fetch(countCountriesEndpoint);
+    const response = await fetch("https://compteurpays-b7gdb3cafscrf3bw.northeurope-01.azurewebsites.net/api/ComptagePays");
     const data = await response.json();
-
-    $("#countries-result").text(
-      `🌍 Nombre de pays dans le monde : ${data.count}`
-    );
+    alert("🌍 Nombre de pays dans le monde : " + data.totalCountries);
   } catch (error) {
-    console.error(error);
-    $("#countries-result").text("❌ Erreur lors du comptage des pays");
+    console.error("Erreur lors du comptage des pays :", error);
+    alert("❌ Erreur lors du comptage des pays");
   }
 });
+

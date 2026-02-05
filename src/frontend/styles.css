@@ -1,84 +1,109 @@
-/* Général */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #e0f2ff, #c0e0ff);
+  font-family: 'Poppins', sans-serif;
+  background: #0f0c29;  
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  background-size: 400% 400%;
+  animation: bgAnimation 20s ease infinite;
   margin: 0;
-  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  color: #333;
+  color: #fff;
 }
 
-/* Conteneur principal */
+@keyframes bgAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .app-container {
-  background: #ffffffcc; /* léger effet translucide */
-  backdrop-filter: blur(10px);
-  padding: 25px 30px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(15px);
+  padding: 40px 35px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
   width: 100%;
-  max-width: 450px;
+  max-width: 500px;
   text-align: center;
+  border: 2px solid rgba(255,255,255,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .app-container:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
 }
 
-/* Titre */
+/* TITLE */
 .app-container h1 {
-  font-size: 2.2rem;
-  margin-bottom: 1.2rem;
-  color: #1e88e5;
+  font-size: 2.8rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+  background: linear-gradient(90deg, #ff0099, #493240, #00f0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 25px;
+  animation: glowTitle 3s ease-in-out infinite alternate;
 }
 
-/* Formulaire */
+@keyframes glowTitle {
+  0% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #00ffff; }
+  100% { text-shadow: 0 0 15px #ff0099, 0 0 25px #00f0ff; }
+}
+
+/* FORM */
 #todo-form {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 25px;
 }
 
 #todo-input {
   flex: 1;
-  padding: 12px 15px;
+  padding: 14px;
   font-size: 16px;
-  border: 1px solid #ccc;
   border-radius: 12px 0 0 12px;
+  border: none;
   outline: none;
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
   transition: all 0.3s ease;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+#todo-input::placeholder {
+  color: rgba(255,255,255,0.6);
 }
 
 #todo-input:focus {
-  border-color: #1e88e5;
-  box-shadow: 0 0 8px rgba(30,136,229,0.2);
+  box-shadow: 0 0 10px #ff00ff, inset 0 2px 6px rgba(0,0,0,0.5);
 }
 
+/* BUTTONS */
 button {
-  padding: 12px 20px;
-  background-color: #1e88e5;
-  color: #fff;
+  padding: 14px 20px;
   font-weight: 600;
-  border: none;
   border-radius: 0 12px 12px 0;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
-  background-color: #1565c0;
-  transform: translateY(-2px);
+#todo-form button {
+  background: linear-gradient(135deg, #ff0099, #00f0ff);
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
-/* Liste des tâches */
+#todo-form button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(255,0,255,0.5);
+}
+
+/* TASK LIST */
 #todo-list {
   list-style: none;
   padding: 0;
@@ -89,86 +114,86 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 18px;
+  padding: 14px 18px;
   border-radius: 12px;
-  margin-bottom: 12px;
-  background: #f4f6f9;
-  border-left: 4px solid #1e88e5;
+  margin-bottom: 15px;
+  background: rgba(255,255,255,0.05);
+  border-left: 6px solid #ff00ff;
   transition: all 0.3s ease;
 }
 
 #todo-list li.completed {
   text-decoration: line-through;
   color: #aaa;
-  border-left-color: #a0a0a0;
-  background: #e0e0e0;
+  border-left-color: #555;
+  background: rgba(0,0,0,0.2);
 }
 
 #todo-list li:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(255,0,255,0.3);
 }
 
-/* Boutons de suppression */
+/* DELETE */
 .delete-btn {
   background: none;
   border: none;
-  color: #e53935;
+  color: #ff4c4c;
   font-size: 1rem;
   cursor: pointer;
-  transition: color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .delete-btn:hover {
-  color: #b71c1c;
-  transform: scale(1.1);
+  transform: scale(1.2);
+  color: #ff1a1a;
 }
 
-/* Checkboxes */
+/* CHECKBOX */
 .task-toggle {
-  margin-right: 12px;
+  margin-right: 14px;
   transform: scale(1.3);
   cursor: pointer;
-  accent-color: #1e88e5;
+  accent-color: #00f0ff;
 }
 
-/* Responsivité */
-@media (max-width: 480px) {
-  .app-container {
-    padding: 20px;
-  }
-
-  #todo-form {
-    flex-direction: column;
-  }
-
-  #todo-input, button {
-    border-radius: 12px;
-    width: 100%;
-  }
-
-  button {
-    margin-top: 10px;
-  }
-}
-
+/* COUNT COUNTRIES BUTTON */
 #count-countries-btn {
-  margin-top: 15px;
-  padding: 10px 15px;
-  background-color: #28a745;
-  color: white;
+  padding: 12px 18px;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 14px;
   border: none;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #00ff99, #00c0ff);
+  color: #fff;
   cursor: pointer;
-  font-size: 1rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  animation: pulseBtn 2s infinite alternate;
 }
 
 #count-countries-btn:hover {
-  background-color: #1e7e34;
+  transform: scale(1.05) translateY(-2px);
+  background: linear-gradient(135deg, #00c070, #0099ff);
 }
 
+@keyframes pulseBtn {
+  0% { box-shadow: 0 0 10px #00c0ff, 0 0 20px rgba(0,200,255,0.5); }
+  100% { box-shadow: 0 0 20px #00c0ff, 0 0 30px rgba(0,200,255,0.8); }
+}
+
+/* RESULT */
 #countries-result {
   margin-top: 10px;
-  font-weight: bold;
-  color: #333;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffeb3b;
+  text-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* RESPONSIVE */
+@media (max-width: 500px) {
+  .app-container { padding: 30px 20px; }
+  #todo-form { flex-direction: column; }
+  #todo-input, button, #count-countries-btn { width: 100%; border-radius: 12px; }
 }

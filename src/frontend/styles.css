@@ -151,3 +151,24 @@ button:hover {
     margin-top: 10px;
   }
 }
+
+#count-countries-btn {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#count-countries-btn:hover {
+  background-color: #1e7e34;
+}
+
+#countries-result {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+}

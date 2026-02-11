@@ -262,8 +262,16 @@ body {
   transition: opacity 2s ease;
   filter: brightness(0.8) blur(2px);
   z-index: -1;
+  animation: rotateEarth 1000s linear infinite; /* rotation continue */
 }
 
+/* Classe active quand on survole le bouton */
 #earth-bg.active {
-  opacity: 0.3; /* semi-transparente */
+  opacity: 0.3;
+}
+
+/* Animation rotation */
+@keyframes rotateEarth {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }

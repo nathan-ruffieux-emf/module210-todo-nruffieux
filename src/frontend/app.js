@@ -134,23 +134,107 @@ $("#count-countries-btn").on("click", async function () {
 
 
 
+const todoForm = document.getElementById("todo-form");
+const todoInput = document.getElementById("todo-input");
+const todoList = document.getElementById("todo-list");
 const themeToggle = document.getElementById("theme-toggle");
-themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-  themeToggle.textContent =
-    document.body.classList.contains("dark") ? "☀️" : "🌙";
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+/* =========================
+   RENDER
+========================= */
+function renderTasks() {
+  todoList.innerHTML = "";
+
+  tasks.forEach((task, index) => {
+    const li = document.createElement("li");
+    li.draggable = true;
+    if (task.completed) li.classList.add("completed");
+
+    li.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input type="checkbox" class="task-toggle" ${
+          task.completed ? "checked" : ""
+        }>
+        <span>${task.text}</span>
+      </div>
+      <button class="delete-btn">✕</button>
+    `;
+
+    // Toggle
+    li.querySelector(".task-toggle").addEventListener("change", () => {
+      tasks[index].completed = !tasks[index].completed;
+      saveAndRender();
+    });
+
+    // Delete
+    li.querySelector(".delete-btn").addEventListener("click", () => {
+      tasks.splice(index, 1);
+      saveAndRender();
+    });
+
+    todoList.appendChild(li);
+  });
+
+  updateStats();
+}
+
+/* =========================
+   ADD TASK
+========================= */
+todoForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = todoInput.value.trim();
+  if (!text) return;
+
+  tasks.push({
+    text,
+    completed: false,
+  });
+
+  todoInput.value = "";
+  saveAndRender();
 });
 
+/* =========================
+   STATS + PROGRESS
+========================= */
 function updateStats() {
-  const tasks = document.querySelectorAll("#todo-list li");
-  const completed = document.querySelectorAll("#todo-list li.completed");
+  const total = tasks.length;
+  const completed = tasks.filter(t => t.completed).length;
 
-  document.getElementById("total-tasks").textContent = tasks.length;
-  document.getElementById("completed-tasks").textContent = completed.length;
+  document.getElementById("total-tasks").textContent = total;
+  document.getElementById("completed-tasks").textContent = completed;
 
-  const percent = tasks.length
-    ? (completed.length / tasks.length) * 100
-    : 0;
-
+  const percent = total ? (completed / total) * 100 : 0;
   document.querySelector(".progress-fill").style.width = percent + "%";
 }
+
+/* =========================
+   DARK MODE
+========================= */
+themeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  const dark = document.body.classList.contains("dark");
+  themeToggle.textContent = dark ? "☀️" : "🌙";
+  localStorage.setItem("darkMode", dark);
+});
+
+// Restore dark mode
+if (localStorage.getItem("darkMode") === "true") {
+  document.body.classList.add("dark");
+  themeToggle.textContent = "☀️";
+}
+
+/* =========================
+   SAVE
+========================= */
+function saveAndRender() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  renderTasks();
+}
+
+/* INIT */
+renderTasks();
+

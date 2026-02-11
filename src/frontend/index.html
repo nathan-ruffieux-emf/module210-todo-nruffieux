@@ -11,27 +11,45 @@
 <body>
   <div class="app-container">
 
-    <!-- Header animé -->
-    <div class="app-header">
-      <h1>💎 Todo App Deluxe</h1>
-      <p class="subtitle">Organise tes tâches et explore le monde 🌍</p>
+    <div class="top-bar">
+      <h1>Todo</h1>
+      <button id="theme-toggle">🌙</button>
     </div>
-
-    <!-- Section compteur de pays -->
+  
+    <p class="subtitle">Stay organized. Stay sharp.</p>
+  
+    <!-- STATS -->
+    <div class="stats">
+      <div>
+        <span id="total-tasks">0</span>
+        <small>Total</small>
+      </div>
+      <div>
+        <span id="completed-tasks">0</span>
+        <small>Done</small>
+      </div>
+    </div>
+  
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+  
+    <!-- COUNTER -->
     <div class="counter-container">
-      <button id="count-countries-btn">🌍 Compter les pays</button>
+      <button id="count-countries-btn">Count Countries</button>
       <p id="countries-result"></p>
     </div>
-
-    <!-- Formulaire Todo -->
+  
+    <!-- FORM -->
     <form id="todo-form">
-      <input type="text" id="todo-input" placeholder="Ajouter une nouvelle tâche..." required>
-      <button type="submit">➕ Add</button>
+      <input type="text" id="todo-input" placeholder="Add a new task..." required>
+      <button type="submit">Add</button>
     </form>
-
-    <!-- Liste des tâches -->
+  
+    <!-- LIST -->
     <ul id="todo-list"></ul>
-
+  
   </div>
+  
 </body>
 </html>

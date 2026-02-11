@@ -132,3 +132,25 @@ $("#count-countries-btn").on("click", async function () {
   }
 });
 
+
+
+const themeToggle = document.getElementById("theme-toggle");
+themeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  themeToggle.textContent =
+    document.body.classList.contains("dark") ? "☀️" : "🌙";
+});
+
+function updateStats() {
+  const tasks = document.querySelectorAll("#todo-list li");
+  const completed = document.querySelectorAll("#todo-list li.completed");
+
+  document.getElementById("total-tasks").textContent = tasks.length;
+  document.getElementById("completed-tasks").textContent = completed.length;
+
+  const percent = tasks.length
+    ? (completed.length / tasks.length) * 100
+    : 0;
+
+  document.querySelector(".progress-fill").style.width = percent + "%";
+}

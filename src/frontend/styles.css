@@ -1,155 +1,180 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 /* BODY */
 body {
   font-family: 'Inter', sans-serif;
-  margin: 0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f4f6f8;
-  color: #1f2933;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  color: #111827;
 }
 
-/* CONTENEUR */
+/* MAIN CARD */
 .app-container {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 40px 30px;
   width: 100%;
-  max-width: 500px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
+  max-width: 520px;
+  background: white;
+  border-radius: 20px;
+  padding: 45px 35px;
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.05),
+    0 20px 60px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.app-container:hover {
+  transform: translateY(-4px);
 }
 
 /* HEADER */
-.app-header h1 {
-  font-size: 2rem;
-  margin: 0;
-  font-weight: 700;
-  color: #111827;
+.app-header {
   text-align: center;
+  margin-bottom: 35px;
+}
+
+.app-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -1px;
 }
 
 .subtitle {
+  margin-top: 8px;
   font-size: 0.95rem;
   color: #6b7280;
+}
+
+/* COUNTER */
+.counter-container {
+  margin-bottom: 30px;
   text-align: center;
-  margin-bottom: 25px;
+}
+
+#count-countries-btn {
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: none;
+  background: #111827;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+#count-countries-btn:hover {
+  background: #1f2937;
+  transform: translateY(-2px);
+}
+
+#countries-result {
+  margin-top: 12px;
+  font-weight: 600;
+  color: #4f46e5;
 }
 
 /* FORM */
 #todo-form {
   display: flex;
+  margin-bottom: 25px;
   gap: 10px;
-  margin-bottom: 20px;
 }
 
 #todo-input {
   flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #d1d5db;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
   font-size: 15px;
-  outline: none;
-  transition: border 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 #todo-input:focus {
-  border-color: #2563eb;
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
 #todo-form button {
-  padding: 12px 18px;
-  font-weight: 600;
-  border-radius: 10px;
+  padding: 14px 18px;
+  border-radius: 12px;
   border: none;
-  background: #2563eb;
+  background: #6366f1;
   color: white;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 #todo-form button:hover {
-  background: #1d4ed8;
+  background: #4f46e5;
+  transform: translateY(-2px);
 }
 
-/* LISTE */
+/* LIST */
 #todo-list {
   list-style: none;
-  padding: 0;
 }
 
 #todo-list li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 14px;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 14px;
   background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
 }
 
-#todo-list li.completed {
-  text-decoration: line-through;
-  color: #9ca3af;
+#todo-list li:hover {
   background: #f3f4f6;
+  transform: translateY(-2px);
 }
 
-/* CHECKBOX */
+/* Completed */
+#todo-list li.completed {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+/* Checkbox */
 .task-toggle {
   margin-right: 12px;
+  transform: scale(1.2);
   cursor: pointer;
+  accent-color: #6366f1;
 }
 
-/* DELETE */
+/* Delete */
 .delete-btn {
   background: none;
   border: none;
-  color: #ef4444;
-  cursor: pointer;
   font-size: 0.9rem;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: color 0.2s ease;
 }
 
 .delete-btn:hover {
-  color: #dc2626;
-}
-
-/* COUNTER */
-.counter-container {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-#count-countries-btn {
-  padding: 12px 18px;
-  border-radius: 10px;
-  border: none;
-  background: #10b981;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-#count-countries-btn:hover {
-  background: #059669;
-}
-
-#countries-result {
-  margin-top: 10px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #374151;
+  color: #ef4444;
 }
 
 /* RESPONSIVE */
 @media (max-width: 520px) {
   .app-container {
-    padding: 30px 20px;
+    padding: 35px 25px;
+    border-radius: 0;
+    min-height: 100vh;
   }
 
   #todo-form {

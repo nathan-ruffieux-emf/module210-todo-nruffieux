@@ -147,3 +147,15 @@ $("#count-countries-btn").on("click", async function () {
     $("#countries-result").text("❌ Erreur");
   }
 });
+
+// FADE-IN / FADE-OUT EARTH ON HOVER
+const earth = document.getElementById('earth-bg');
+const countryBtn = document.getElementById('count-countries-btn');
+
+countryBtn.addEventListener('mouseenter', () => {
+  earth.classList.add('active');
+});
+
+countryBtn.addEventListener('mouseleave', () => {
+  earth.classList.remove('active');
+});

@@ -9,47 +9,55 @@
   <script src="app.js" defer></script>
 </head>
 <body>
+  <div id="earth-bg"></div>
+
   <div class="app-container">
 
-    <div class="top-bar">
-      <h1>Todo</h1>
-      <button id="theme-toggle">🌙</button>
-    </div>
-  
-    <p class="subtitle">Stay organized. Stay sharp.</p>
-  
-    <!-- STATS -->
-    <div class="stats">
-      <div>
-        <span id="total-tasks">0</span>
-        <small>Total</small>
+    <!-- HEADER + THEME -->
+    <header class="app-header">
+      <div class="top-bar">
+        <h1>Todo Deluxe</h1>
+        <button id="theme-toggle">🌙</button>
       </div>
-      <div>
-        <span id="completed-tasks">0</span>
-        <small>Done</small>
+      <p class="subtitle">Stay organized. Stay sharp.</p>
+    </header>
+
+    <!-- STATS + PROGRESS -->
+    <section class="app-stats">
+      <div class="stats">
+        <div>
+          <span id="total-tasks">0</span>
+          <small>Total</small>
+        </div>
+        <div>
+          <span id="completed-tasks">0</span>
+          <small>Done</small>
+        </div>
       </div>
-    </div>
-  
-    <div class="progress-bar">
-      <div class="progress-fill"></div>
-    </div>
-  
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </section>
+
     <!-- COUNTER -->
-    <div class="counter-container">
-      <button id="count-countries-btn">Count Countries</button>
+    <section class="counter">
+      <button id="count-countries-btn">🌍 Count Countries</button>
       <p id="countries-result"></p>
-    </div>
-  
-    <!-- FORM -->
-    <form id="todo-form">
-      <input type="text" id="todo-input" placeholder="Add a new task..." required>
-      <button type="submit">Add</button>
-    </form>
-  
-    <!-- LIST -->
-    <ul id="todo-list"></ul>
-  
+    </section>
+
+    <!-- TODO FORM -->
+    <section class="todo-form-section">
+      <form id="todo-form">
+        <input type="text" id="todo-input" placeholder="Add a new task..." required>
+        <button type="submit">Add</button>
+      </form>
+    </section>
+
+    <!-- TODO LIST -->
+    <section class="todo-list-section">
+      <ul id="todo-list"></ul>
+    </section>
+
   </div>
-  
 </body>
 </html>

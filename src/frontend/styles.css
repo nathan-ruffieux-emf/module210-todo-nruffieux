@@ -255,7 +255,7 @@ body {
   left: 50%;
   width: 1500px;
   height: 1500px;
-  background: url('../../src/images/terre.png') no-repeat center/contain;
+  background: url('../images/terre.png') no-repeat center/contain;
   opacity: 0;
   pointer-events: none; /* pour ne pas bloquer la souris */
   transform: translate(-50%, -50%);

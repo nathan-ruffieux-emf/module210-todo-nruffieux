@@ -256,9 +256,135 @@ $("#count-countries-btn").on("click", async function () {
 // Effet visuel Terre au survol
 const earth = document.getElementById("earth-bg");
 const countryBtn = document.getElementById("count-countries-btn");
+const secretBtn = document.getElementById("secret-btn");
+
+let secretRevealed = false;
+
 countryBtn.addEventListener("mouseenter", () => {
   earth.classList.add("active");
+  // Montrer le bouton secret quand la Terre apparaît
+  secretBtn.classList.add("visible");
+  secretRevealed = true;
 });
+
 countryBtn.addEventListener("mouseleave", () => {
   earth.classList.remove("active");
+  // NE PAS cacher le bouton secret - il reste visible une fois révélé !
+  // secretBtn.classList.remove("visible");
 });
+
+// ========================= EASTER EGG: DESTROY EARTH =========================
+const destroyBtn = document.getElementById("destroy-btn");
+const countdownOverlay = document.getElementById("countdown-overlay");
+const countdownNumber = document.getElementById("countdown-number");
+
+let destroySequenceActive = false;
+
+// Étape 1: Clic sur le bouton secret
+secretBtn.addEventListener("click", () => {
+  if (destroySequenceActive) return;
+  destroySequenceActive = true;
+  
+  // Cacher le bouton secret
+  secretBtn.classList.remove("visible");
+  
+  // Faire descendre toutes les cartes
+  document.body.classList.add("destroyed");
+  
+  // Zoomer sur la Terre
+  earth.classList.add("zoomed");
+  
+  // Après 1 seconde, montrer le bouton "Destroy Earth"
+  setTimeout(() => {
+    destroyBtn.classList.add("visible");
+  }, 1000);
+});
+
+// Étape 2: Clic sur "Destroy Earth"
+destroyBtn.addEventListener("click", () => {
+  // Cacher le bouton destroy
+  destroyBtn.classList.remove("visible");
+  
+  // Afficher l'overlay de compte à rebours
+  countdownOverlay.classList.add("active");
+  
+  // Démarrer le compte à rebours
+  let count = 10;
+  countdownNumber.textContent = count;
+  
+  const countdownInterval = setInterval(() => {
+    count--;
+    countdownNumber.textContent = count;
+    
+    // Animation de pulse à chaque nombre
+    countdownNumber.style.animation = "none";
+    setTimeout(() => {
+      countdownNumber.style.animation = "countdownPulse 1s ease-in-out";
+    }, 10);
+    
+    // Commencer le flash rouge à partir de 3
+    if (count <= 3) {
+      countdownOverlay.classList.add("flashing");
+    }
+    
+    if (count === 0) {
+      clearInterval(countdownInterval);
+      
+      // EXPLOSION!
+      setTimeout(() => {
+        createExplosion();
+      }, 500);
+    }
+  }, 1000);
+});
+
+function createExplosion() {
+  // Créer plusieurs explosions pour un effet plus spectaculaire
+  const explosionCount = 5;
+  
+  for (let i = 0; i < explosionCount; i++) {
+    setTimeout(() => {
+      const explosion = document.createElement("div");
+      explosion.className = "explosion";
+      
+      // Positionner aléatoirement autour du centre
+      const offsetX = (Math.random() - 0.5) * 200;
+      const offsetY = (Math.random() - 0.5) / 200;
+      explosion.style.left = `calc(50% + ${offsetX}px)`;
+      explosion.style.top = `calc(50% + ${offsetY}px)`;
+      
+      document.body.appendChild(explosion);
+      
+      // Retirer l'explosion après l'animation
+      setTimeout(() => {
+        explosion.remove();
+      }, 1500);
+    }, i * 150);
+  }
+  
+  // Faire disparaître tout après l'explosion
+  setTimeout(() => {
+    countdownOverlay.style.background = "white";
+    document.body.style.background = "white";
+    
+    // Message final
+    setTimeout(() => {
+      countdownOverlay.innerHTML = `
+        <div style="text-align: center; color: #1f2937;">
+          <h1 style="font-size: 4rem; margin-bottom: 20px;">💥 BOOM! 💥</h1>
+          <p style="font-size: 1.5rem; margin-bottom: 30px;">La Terre a été détruite...</p>
+          <button onclick="location.reload()" style="
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+          ">Recommencer 🔄</button>
+        </div>
+      `;
+    }, 1000);
+  }, 1500);
+}

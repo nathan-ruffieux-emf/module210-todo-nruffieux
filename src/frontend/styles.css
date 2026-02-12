@@ -6,6 +6,7 @@
   --text: #0f172a;
   --subtext: #64748b;
   --primary: #6366f1;
+  --secondary: #818cf8;
   --primary-hover: #4f46e5;
   --border: #e2e8f0;
   --task-bg: rgba(248, 250, 252, 0.5);
@@ -447,6 +448,218 @@ body.dark .status-select {
 .progress-ring__circle {
   transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   stroke-linecap: round;
+}
+
+/* ========================= NEW FEATURES ========================= */
+
+/* Barre de progression générale */
+.overall-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 12px;
+  background: var(--task-bg);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+.overall-progress-bar {
+  flex: 1;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+}
+body.dark .overall-progress-bar {
+  background: rgba(255, 255, 255, 0.05);
+}
+.overall-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 20px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.overall-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.overall-progress-fill.low {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+.overall-progress-fill.medium {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+.overall-progress-fill.high {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+.overall-progress-text {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 42px;
+  text-align: right;
+}
+
+/* Filtres de tâches */
+.task-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  flex: 1;
+  min-width: 90px;
+  padding: 8px 12px;
+  border: 2px solid var(--border);
+  background: var(--task-bg);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.filter-btn:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Streak card */
+.streak-card {
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(255, 179, 0, 0.1));
+  border: 2px solid rgba(255, 107, 0, 0.3);
+}
+body.dark .streak-card {
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.15), rgba(255, 179, 0, 0.15));
+}
+.streak-number {
+  font-size: 2.5rem !important;
+  background: linear-gradient(135deg, #ff6b00, #ffb300) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+.streak-number.on-fire {
+  animation: fireGlow 1.5s ease-in-out infinite;
+}
+@keyframes fireGlow {
+  0%, 100% { 
+    filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.5));
+    transform: scale(1);
+  }
+  50% { 
+    filter: drop-shadow(0 0 20px rgba(255, 179, 0, 0.8));
+    transform: scale(1.05);
+  }
+}
+
+/* Sélecteur de thème de couleur */
+.color-theme-selector {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--task-bg);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+.color-theme-selector h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  text-align: center;
+}
+.color-options {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.color-option {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.color-option:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.color-option.active {
+  border-color: var(--text);
+  transform: scale(1.2);
+  box-shadow: 0 0 0 3px var(--border);
+}
+.color-option.active::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: 900;
+  font-size: 1.2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.keyboard-hint {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--subtext);
+  margin: 8px 0 0 0;
+  font-weight: 500;
+}
+
+/* Notifications toast */
+.toast-notification {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.toast-notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ajuster la hauteur de la todo-card pour les nouveaux éléments */
+.todo-card { 
+  height: auto; 
+  max-height: 700px;
 }
 
 /* ========================= EASTER EGG: DESTROY EARTH ========================= */

@@ -34,6 +34,23 @@
     <!-- TODO -->
     <section class="card todo-card">
       <h2>Tâches</h2>
+      
+      <!-- Barre de progression générale -->
+      <div class="overall-progress">
+        <div class="overall-progress-bar">
+          <div class="overall-progress-fill"></div>
+        </div>
+        <span class="overall-progress-text">0%</span>
+      </div>
+      
+      <!-- Filtres -->
+      <div class="task-filters">
+        <button class="filter-btn active" data-filter="all">📋 Toutes</button>
+        <button class="filter-btn" data-filter="pending">⏳ En attente</button>
+        <button class="filter-btn" data-filter="inprogress">⚡ En cours</button>
+        <button class="filter-btn" data-filter="done">✅ Finies</button>
+      </div>
+      
       <form id="todo-form">
         <input type="text" id="todo-input" placeholder="Ajouter une tâche..." required />
         <button type="submit">Ajouter</button>
@@ -80,6 +97,26 @@
             <small>Supprimées</small>
           </div>
         </div>
+        
+        <div class="stat-card streak-card">
+          <div class="stat-info">
+            <span id="streak-count" class="streak-number">0</span>
+            <small>🔥 Streak (jours)</small>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sélecteur de couleur -->
+      <div class="color-theme-selector">
+        <h3>🎨 Thème</h3>
+        <div class="color-options">
+          <button class="color-option active" data-color="purple" style="background: linear-gradient(135deg, #6366f1, #818cf8);" title="Purple"></button>
+          <button class="color-option" data-color="blue" style="background: linear-gradient(135deg, #3b82f6, #60a5fa);" title="Blue"></button>
+          <button class="color-option" data-color="pink" style="background: linear-gradient(135deg, #ec4899, #f472b6);" title="Pink"></button>
+          <button class="color-option" data-color="green" style="background: linear-gradient(135deg, #10b981, #34d399);" title="Green"></button>
+          <button class="color-option" data-color="orange" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);" title="Orange"></button>
+        </div>
+        <p class="keyboard-hint">💡 Ctrl+K pour dark mode</p>
       </div>
     </section>
 

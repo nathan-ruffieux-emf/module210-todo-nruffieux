@@ -12,6 +12,20 @@ const STATUS = {
 };
 const STATUS_KEY = "taskStatusMap";
 const DELETED_KEY = "deletedCount";
+const STREAK_KEY = "productivityStreak";
+const LAST_COMPLETION_KEY = "lastCompletionDate";
+const THEME_COLOR_KEY = "themeColor";
+
+// Thèmes de couleur disponibles
+const COLOR_THEMES = {
+  purple: { primary: '#6366f1', secondary: '#818cf8', name: '💜 Purple' },
+  blue: { primary: '#3b82f6', secondary: '#60a5fa', name: '💙 Blue' },
+  pink: { primary: '#ec4899', secondary: '#f472b6', name: '💗 Pink' },
+  green: { primary: '#10b981', secondary: '#34d399', name: '💚 Green' },
+  orange: { primary: '#f59e0b', secondary: '#fbbf24', name: '🧡 Orange' },
+};
+
+let currentFilter = 'all'; // all, pending, inprogress, done
 
 // --- Helpers LocalStorage ---
 function getStatusMap() {
@@ -60,9 +74,92 @@ function incDeletedCount() {
   localStorage.setItem(DELETED_KEY, String(getDeletedCount() + 1));
 }
 
+// --- Streak Management ---
+function getStreak() {
+  return parseInt(localStorage.getItem(STREAK_KEY) || "0", 10);
+}
+function updateStreak() {
+  const lastDate = localStorage.getItem(LAST_COMPLETION_KEY);
+  const today = new Date().toDateString();
+  
+  if (!lastDate) {
+    localStorage.setItem(STREAK_KEY, "1");
+    localStorage.setItem(LAST_COMPLETION_KEY, today);
+    return 1;
+  }
+  
+  const last = new Date(lastDate);
+  const now = new Date();
+  const diffDays = Math.floor((now - last) / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 0) {
+    return getStreak();
+  } else if (diffDays === 1) {
+    const newStreak = getStreak() + 1;
+    localStorage.setItem(STREAK_KEY, String(newStreak));
+    localStorage.setItem(LAST_COMPLETION_KEY, today);
+    return newStreak;
+  } else {
+    localStorage.setItem(STREAK_KEY, "1");
+    localStorage.setItem(LAST_COMPLETION_KEY, today);
+    return 1;
+  }
+}
+
+// --- Theme Management ---
+function getThemeColor() {
+  return localStorage.getItem(THEME_COLOR_KEY) || 'purple';
+}
+function setThemeColor(colorName) {
+  localStorage.setItem(THEME_COLOR_KEY, colorName);
+  applyThemeColor(colorName);
+}
+function applyThemeColor(colorName) {
+  const theme = COLOR_THEMES[colorName];
+  if (!theme) return;
+  
+  document.documentElement.style.setProperty('--primary', theme.primary);
+  document.documentElement.style.setProperty('--primary-hover', theme.primary);
+  document.documentElement.style.setProperty('--secondary', theme.secondary);
+}
+
 // --- Initialisation ---
 $(document).ready(function () {
+  // Appliquer le thème sauvegardé
+  applyThemeColor(getThemeColor());
+  updateStreakDisplay();
+  
   loadTasks();
+
+  // Raccourcis clavier
+  $(document).on('keydown', function(e) {
+    // Ctrl/Cmd + N = Nouvelle tâche
+    if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+      e.preventDefault();
+      $('#todo-input').focus();
+    }
+    // Ctrl/Cmd + K = Toggle dark mode
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      $('#theme-toggle').click();
+    }
+  });
+
+  // Filtres
+  $('.filter-btn').on('click', function() {
+    $('.filter-btn').removeClass('active');
+    $(this).addClass('active');
+    currentFilter = $(this).data('filter');
+    filterTasks();
+  });
+
+  // Sélecteur de couleur
+  $('.color-option').on('click', function() {
+    $('.color-option').removeClass('active');
+    $(this).addClass('active');
+    const colorName = $(this).data('color');
+    setThemeColor(colorName);
+  });
 
   // Ajouter une tâche
   $("#todo-form").on("submit", async function (e) {
@@ -77,8 +174,11 @@ $(document).ready(function () {
       });
       $("#todo-input").val("");
       loadTasks();
+      // Animation success
+      showNotification("✅ Tâche ajoutée !");
     } catch (error) {
       console.error("Erreur ajout :", error);
+      showNotification("❌ Erreur lors de l'ajout");
     }
   });
 
@@ -102,6 +202,16 @@ $(document).ready(function () {
       // MàJ statut local + classes visuelles
       setTaskStatus(id, newStatus);
       applyStatusClasses(li, newStatus);
+      
+      // Si tâche complétée, mettre à jour le streak
+      if (newStatus === STATUS.DONE) {
+        const newStreak = updateStreak();
+        updateStreakDisplay();
+        if (newStreak > 1) {
+          showNotification(`🔥 Streak de ${newStreak} jours !`);
+        }
+      }
+      
       // Rafraîchir stats (moins coûteux que recharger toute la liste)
       refreshCountersOnly();
     } catch (error) {
@@ -202,6 +312,69 @@ function updateStats(tasks) {
   
   // Mise à jour du cercle "En cours"
   updateProgressCircle($("#inprogress-tasks").closest(".stat-card").find(".progress-ring__circle"), inProgressPercent);
+  
+  // Mise à jour de la barre de progression générale
+  updateOverallProgress(completedPercent);
+}
+
+// Barre de progression générale
+function updateOverallProgress(percent) {
+  const $progressBar = $('.overall-progress-fill');
+  const $progressText = $('.overall-progress-text');
+  
+  $progressBar.css('width', percent + '%');
+  $progressText.text(Math.round(percent) + '%');
+  
+  // Changer la couleur selon la progression
+  $progressBar.removeClass('low medium high');
+  if (percent < 33) $progressBar.addClass('low');
+  else if (percent < 66) $progressBar.addClass('medium');
+  else $progressBar.addClass('high');
+}
+
+// Filtrer les tâches
+function filterTasks() {
+  $('#todo-list li').each(function() {
+    const $li = $(this);
+    const status = $li.find('.status-select').val();
+    
+    let show = false;
+    if (currentFilter === 'all') show = true;
+    else if (currentFilter === 'pending' && status === STATUS.PENDING) show = true;
+    else if (currentFilter === 'inprogress' && status === STATUS.INPROGRESS) show = true;
+    else if (currentFilter === 'done' && status === STATUS.DONE) show = true;
+    
+    if (show) {
+      $li.slideDown(200);
+    } else {
+      $li.slideUp(200);
+    }
+  });
+}
+
+// Afficher une notification toast
+function showNotification(message) {
+  const $notification = $('<div class="toast-notification"></div>').text(message);
+  $('body').append($notification);
+  
+  setTimeout(() => $notification.addClass('show'), 10);
+  setTimeout(() => {
+    $notification.removeClass('show');
+    setTimeout(() => $notification.remove(), 300);
+  }, 2000);
+}
+
+// Mettre à jour l'affichage du streak
+function updateStreakDisplay() {
+  const streak = getStreak();
+  $('#streak-count').text(streak);
+  
+  // Animation du feu si streak > 3
+  if (streak >= 3) {
+    $('#streak-count').addClass('on-fire');
+  } else {
+    $('#streak-count').removeClass('on-fire');
+  }
 }
 
 // Helper pour mettre à jour un cercle de progression

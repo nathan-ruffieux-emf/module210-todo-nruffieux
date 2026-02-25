@@ -6,7 +6,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 app.use(cors());
-//commentaire parce que voila
 
 const tasksRoutes = require("./routes/tasksRoutes");
 

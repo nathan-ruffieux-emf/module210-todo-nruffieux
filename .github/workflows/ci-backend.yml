@@ -1,0 +1,34 @@
+name: Build and save my Docker image to a registry
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'   # Lance le workflow seulement si backend change
+
+env:
+  REGISTRY: "acrinfofd21210.azurecr.io"   # Nom de la registry Azure
+  IMAGE_NAME: "backend-app"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Login to Azure Container Registry
+        run: |
+          echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ env.REGISTRY }} \
+          --username ${{ secrets.REGISTRY_USERNAME }} \
+          --password-stdin
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} ./backend
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}

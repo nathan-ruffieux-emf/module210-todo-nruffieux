@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'backend/**'   # Lance le workflow seulement si backend change
+      - 'todo-app-main/src/backend/**'   # Lance le workflow seulement si backend change
 
 env:
   REGISTRY: "acrinfofd21210.azurecr.io"   # Nom de la registry Azure

@@ -40,6 +40,14 @@ jobs:
           api_location: "" # Api source code path - optional
           output_location: "." # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+      - name: Exécuter Lighthouse sur le build
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://delightful-desert-0acd87d03.2.azurestaticapps.net/
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: ./lighthouserc.json
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -52,4 +60,5 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_DELIGHTFUL_DESERT_0ACD87D03 }}
           action: "close"
+
 

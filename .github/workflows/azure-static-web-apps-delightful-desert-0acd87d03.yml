@@ -45,9 +45,9 @@ jobs:
         with:
           urls: |
             https://delightful-desert-0acd87d03.2.azurestaticapps.net/
-          uploadArtifacts: true
           temporaryPublicStorage: true
-          configPath: ./lighthouserc.json
+          uploadArtifacts: false
+          configPath: ./.lighthouserc.json
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -60,5 +60,6 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_DELIGHTFUL_DESERT_0ACD87D03 }}
           action: "close"
+
 
 
